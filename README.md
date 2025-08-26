@@ -43,7 +43,7 @@ The API is for adding and serving NPA ported games so other sites can embed thos
 
 # Installation
 
-### Option A — Script tag (quick)
+Script tag (quick)
 Include the built bundle on any page:
 
 ```html
@@ -52,18 +52,6 @@ Include the built bundle on any page:
   // optional: set flags before the bundle initializes
   window.__builderFlags = { hideDevButton: true, env: 'prod' };
 </script>
-```
-
-### Option B — NPM (if published)
-```bash
-# placeholder package name — ``` with actual package if available
-npm install npa-client
-```
-
-```js
-// Hypothetical usage if published as an npm package
-import Builder from 'npa-client';
-Builder.init({ apiBase: 'https://npa.lol/api' });
 ```
 
 > Note: the simplest supported integration is the script tag approach — the built bundle exposes `window.Builder` automatically.
