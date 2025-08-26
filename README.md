@@ -221,9 +221,6 @@ For issues, feature requests, or support: open an issue in this repo (or contact
 ---
 
 # License
-
-Add your chosen license (e.g. MIT) here. Example:
-
 ```
 MIT © National Porting Association
 ```
