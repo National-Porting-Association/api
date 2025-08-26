@@ -1,0 +1,16 @@
+{
+  "games": [
+        {
+      "id": 1,
+      "title": "Bendy and the Ink Machine",
+      "genre": "Horror",
+      "status": "Live",
+      "description": "A first-person puzzle action horror game.",
+      "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSbpbkNjvZBueAv4k3aOJDEVVFbV0ZnQj1RwHQx3SmYHUoSQDpVusONYtTnzyyrcuxo6Fkz",
+      "playUrl": null,
+      "originalPlatform": "PC",
+      "portDate": "2025-01-01",
+      "features": ["Puzzle", "Horror", "Story-driven"]
+        }
+    ]
+}
