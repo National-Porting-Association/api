@@ -11,6 +11,7 @@ This repo contains a small client bundle and a build script (`build.py`) used to
 - [Features](#features)  
 - [Installation](#installation)  
 - [Quick start (HTML)](#quick-start-html)  
+- [Use client (React)](#use-client-react)  
 - [Programmatic usage (JS)](#programmatic-usage-js)  
 - [Build system (`build.py`)](#build-system-buildpy)  
 - [Manifest & embedded data](#manifest--embedded-data)  
@@ -26,7 +27,9 @@ The bundle provides:
 
 - `window.Builder` — runtime helpers for fetching catalogs and creating embed UI.  
 - `window.__embeddedData` — JSON and small assets embedded at build time for offline fallback.  
+- `window.Play` — play overlay and mini-player helpers.  
 - A small Python build script (`build.py`) that concatenates JavaScript files and embeds JSON/images into the bundle.
+- Learn more about what this bundle provides at https://npa.lol/docs.
 
 The API is for adding and serving NPA ported games so other sites can embed those ports and let visitors play them in-place.
 
@@ -36,25 +39,25 @@ The API is for adding and serving NPA ported games so other sites can embed thos
 
 - Single-file bundle (`dist/bundle.js`) — easy to include on any static site.  
 - Embedded assets fallback — bundle contains JSON/images so your site can still show games if the API is unreachable.  
-- Minimal runtime API (`window.Builder.*`) for fetching catalogs and mounting players.  
+- Minimal runtime API (`window.Builder.*`, `window.Play.*`) for fetching catalogs and mounting players.  
+- Small dev UI with quick actions (inspect flags, preview embedded assets, open mini-player).  
 - Simple build pipeline (Python) to generate the bundle and `dist/manifest.json`.
 
 ---
 
 # Installation
 
-Script tag (quick)
+Script tag
 Include the built bundle on any page:
 
 ```html
-<script src="/path/to/dist/bundle.js" data-flags="env=dev"></script>
 <script>
   // optional: set flags before the bundle initializes
   window.__builderFlags = { hideDevButton: true, env: 'prod' };
 </script>
+<script src="/path/to/dist/bundle.js" data-flags="env=dev"></script>
 ```
 
-> Note: the simplest supported integration is the script tag approach — the built bundle exposes `window.Builder` automatically.
 
 ---
 
@@ -107,6 +110,14 @@ This example loads the bundle, fetches the games catalog, and inserts a playable
 
 ---
 
+
+## Notes
+- Only call these APIs on the client (inside `useEffect` or guarded by `typeof window !== 'undefined'`).
+- `window.Builder.flags()` is preferred because it returns parsed values; `window.__builderFlags` is a raw object that may be present before the bundle initializes.
+- The docs page includes an interactive "flags" inspector and visual helpers — you can copy that pattern (flag table + visual bars) into your dev console.
+
+---
+
 # Programmatic usage (JS)
 
 Examples of common tasks using the `window.Builder` helpers that the bundle provides.
@@ -137,7 +148,9 @@ function mountGame(container, game) {
 }
 ```
 
-> The exact shape of the `game` object depends on your catalog JSON — see `https://npa.lol/docs` for field details.
+### Play helpers
+- `window.Play.open(url)` — opens the fullscreen overlay for the given play URL (or game id resolved against the games list).  
+- `window.Builder.openMiniPlayer(arg)` — open a compact mini-player; `arg` can be no arg (first game), id/slug/title, absolute/relative URL, or `{ playUrl, title }`.
 
 ---
 
@@ -178,7 +191,7 @@ python build.py
 ```
 
 At runtime:
-- `window.__embeddedData['data/games.json']` contains the parsed JSON content embedded during the build.
+- `window.__embeddedData['data/games.json']` contains the parsed JSON content embedded during the build.  
 - `window.__builderIconDataUrl` (if present) contains a base64 `data:` URL for a small icon.
 
 This lets the client code attempt network fetches first, and fall back to `window.__embeddedData` when the fetch fails.
@@ -204,7 +217,7 @@ If you add large binary assets, consider tracking them with Git LFS.
 
 Full API and field-level documentation: **https://npa.lol/docs**
 
-For issues, feature requests, or support: open an issue in this repo (or contact the NPA maintainers via the contact methods listed on the docs site).
+For issues, feature requests, or support: open an issue in this repo.
 
 ---
 
