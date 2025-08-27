@@ -1,5 +1,5 @@
 {
-  "apiBase": "http://localhost:3000",
+  "apiBase": "api.ashen-os.com",
   "endpoints": {
     "games": "/api/games"
   }
