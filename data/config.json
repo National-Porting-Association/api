@@ -1,5 +1,5 @@
 {
-  "apiBase": "api.ashen-os.com",
+  "apiBase": "https://api.ashen-os.com",
   "endpoints": {
     "games": "/api/games"
   }

@@ -12,12 +12,9 @@
                 const style = document.createElement('style');
                 style.id = 'builder-ui-fixes';
                 style.textContent = `
-/* ensure interactive elements show pointer cursor */
 button, a, [role="button"] { cursor: pointer !important; }
-/* keep builder controls above other overlays and interactive */
 .builder-dev-btn, .builder-dev-menu, .builder-mini-header { pointer-events: auto !important; z-index: 300000 !important; }
 .builder-dev-btn { z-index: 300001 !important; }
-/* resizer/handles keep their cursors */
 .builder-mini-resizer { cursor: nwse-resize !important; }
 `;
                 document.head.appendChild(style);
@@ -105,9 +102,9 @@ button, a, [role="button"] { cursor: pointer !important; }
 
         const openDocsBtn = makeBtn('Open Documentation', () => {
             try {
-                window.open((cfg && cfg.apiBase) ? cfg.apiBase + '/docs' : '/docs', '_blank');
+                window.open('https://npa.lol/docs', '_blank');
             } catch (e) {
-                window.location.href = (cfg && cfg.apiBase) ? cfg.apiBase + '/docs' : '/docs';
+                window.location.href = 'https://npa.lol/docs';
             }
             try {
                 menu.style.display = 'none';
