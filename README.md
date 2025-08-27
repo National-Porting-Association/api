@@ -66,43 +66,132 @@ Include the built bundle on any page:
 This example loads the bundle, fetches the games catalog, and inserts a playable iframe for the first game.
 
 ```html
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Embed NPA Game</title>
-  <script src="/dist/bundle.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NPA API Play Demo</title>
+
+  <!-- Inline flags -->
   <script>
-    // Optional flags for runtime behaviour:
-    window.__builderFlags = { env: 'prod', hideDevButton: true };
+    window.__builderFlags = {
+      hideDevButton: false,
+      env: 'dev'
+    };
   </script>
+
+  <!-- Load built bundle -->
+  <script src="bundle.js"></script>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #eee;
+    }
+
+    .container {
+      background: #1e1e1e;
+      padding: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    header {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      margin: 0 0 0.25rem;
+      color: #fff;
+    }
+    header p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #000000;
+      color: #fff;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #131313;
+    }
+
+    .output {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      min-height: 60px;
+      white-space: pre-wrap;
+      color: rgb(82, 81, 81);
+    }
+  </style>
 </head>
 <body>
-  <div id="games-list"></div>
-  <div id="play-area" style="width:800px;height:600px;border:1px solid #222"></div>
+  <div class="container">
+    <header>
+      <h1>NPA API Demo</h1>
+      <p>Play overlay & mini-player test</p>
+    </header>
+
+    <main class="controls">
+      <button id="overlayById">Open Overlay (ID "1")</button>
+      <button id="miniById">Open Mini-player (ID "1")</button>
+    </main>
+
+    <div class="output" id="output">Logs will appear here...</div>
+  </div>
 
   <script>
-    (async function(){
-      try {
-        const catalog = await window.Builder.fetch('/data/games.json');
-        const first = catalog && catalog[0];
-        document.getElementById('games-list').textContent = 'Found ' + (catalog ? catalog.length : 0) + ' games';
-        if (first && first.embed_url) {
-          const iframe = document.createElement('iframe');
-          iframe.src = first.embed_url;
-          iframe.width = '800';
-          iframe.height = '600';
-          iframe.style.border = 'none';
-          document.getElementById('play-area').appendChild(iframe);
-        } else {
-          document.getElementById('play-area').textContent = 'No playable URL provided';
-        }
-      } catch (err) {
-        console.error('Failed to load catalog', err);
-        document.getElementById('games-list').textContent = 'Failed to load game catalog.';
+    const log = msg => {
+      const out = document.getElementById('output');
+      out.textContent += msg + "\n";
+      out.scrollTop = out.scrollHeight;
+    };
+
+    document.getElementById('overlayById').addEventListener('click', () => {
+      if (window.Play) {
+        window.Play.open('1');
+        log("Opened overlay by ID = '1'");
+      } else {
+        log("window.Play not available (bundle not loaded?)");
       }
-    })();
+    });
+
+    document.getElementById('miniById').addEventListener('click', () => {
+      if (window.Builder) {
+        window.Builder.openMiniPlayer('1');
+        log("Opened mini-player by ID = '1'");
+      } else {
+        log("window.Builder not available (bundle not loaded?)");
+      }
+    });
   </script>
 </body>
 </html>
