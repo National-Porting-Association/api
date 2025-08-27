@@ -199,22 +199,14 @@ This example loads the bundle, fetches the games catalog, and inserts a playable
 
 ---
 
-
-## Notes
-- Only call these APIs on the client (inside `useEffect` or guarded by `typeof window !== 'undefined'`).
-- `window.Builder.flags()` is preferred because it returns parsed values; `window.__builderFlags` is a raw object that may be present before the bundle initializes.
-- The docs page includes an interactive "flags" inspector and visual helpers — you can copy that pattern (flag table + visual bars) into your dev console.
-
----
-
 # Programmatic usage (JS)
 
 Examples of common tasks using the `window.Builder` helpers that the bundle provides.
 
 ### Fetch catalog (with embedded fallback)
 ```js
-// returns JSON (array or object) — will try network first, then window.__embeddedData
-const catalog = await window.Builder.fetch('/data/games.json');
+// logs the game list to the console
+window.Builder.fetchGames().then(games => console.log(games)).catch(err => console.error(err))
 ```
 
 ### Use embedded data directly
