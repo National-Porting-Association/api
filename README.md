@@ -298,7 +298,8 @@ If you add large binary assets, consider tracking them with Git LFS.
 
 Full API and field-level documentation: **https://npa.lol/docs**
 
-For issues, feature requests, or support: open an issue in this repo.
+For issues, feature requests, or support: open an issue in this repo, or join our Discord server
+at https://discord.com/invite/SsW6agAQxR.
 
 ---
 
